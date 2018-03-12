@@ -1,0 +1,27 @@
+{
+  "name": "vendorman",
+  "version": "1.0.0",
+  "description": "Abstraction of npm install to speed up development for basic websites",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jschaefer-io/vendorman.git"
+  },
+  "author": "Jannik Schäfer <me@jschaefer.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jschaefer-io/vendorman/issues"
+  },
+  "homepage": "https://github.com/jschaefer-io/vendorman#readme",
+  "devDependencies": {},
+  "bin": {
+    "vendorman": "bin/vendorman.js"
+  },
+  "dependencies": {
+    "colors": "^1.2.1",
+    "commander": "^2.15.0",
+    "execa": "^0.9.0",
+    "jsonfile": "^4.0.0"
+  }
+}

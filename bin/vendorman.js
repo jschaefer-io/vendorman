@@ -3,7 +3,7 @@
 const path = require('path');
 const program = require('commander');
 const colors = require('colors');
-const package = require(process.cwd() + path.sep + 'package.json');
+const package = require('../' + 'package.json');
 const execa = require('execa');
 const jsonfile = require('jsonfile');
 
@@ -111,6 +111,56 @@ program
 			console.log(colors.red('Error writing vendorman.json'));
 		}
 	});
+
+program
+	.command('file <package> <files...>')
+	.description('Adds the given files to the packages vendor files. Accepts relative paths within the package or from the application root.')
+	.option('-d --delete', 'Removes the files instead')
+	.action((package, files, options)=>{
+		let list;
+		try{
+			list = jsonfile.readFileSync('vendorman.json');
+		}
+		catch(e){
+			console.log(colors.red('vendorman.json not found.'));
+			return;
+		}
+
+		if (!list[package]) {
+			console.log(colors.red('Package ' + package + ' could not be found!'));
+			return;
+		}
+
+		files = files.map((file)=>{
+			return file.replace(list[package].path, '');
+		})
+
+		if (options.delete) {
+			list[package].files = list[package].files.filter((file)=>{
+				let keep = files.indexOf(file) === -1
+				if(!keep){
+					console.log(file + ' removed from ' + package + '.');
+				}
+				return keep;
+			});
+		}
+		else{
+			let fileSet = new Set(list[package].files);
+			files.forEach((file)=>{
+				console.log(file + ' added to ' + package + '.');
+				fileSet.add(file);
+			});
+			list[package].files = Array.from(fileSet);
+		}
+		try{			
+			jsonfile.writeFileSync('vendorman.json', list, {spaces: 2});
+			console.log("\n" + colors.green('vendorman.json updated'));
+		}
+		catch(e){
+			console.log(colors.red('Error writing vendorman.json'));
+		}
+	});
+
 
 
 program

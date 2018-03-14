@@ -179,6 +179,13 @@ program
 		}
 	});
 
+program
+	.command('*')
+	.action(async(module)=>{
+		console.log(colors.red('Unknown command'));
+		program.help();
+	});
+
 program.parse(process.argv);
 
 /**

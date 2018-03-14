@@ -11,22 +11,25 @@ module.exports = {
 			return new Object();
 		}
 	},
-	all: function(){
+	all: function(ext='.+'){
 		let fileList = new Array(),
+			exp = new RegExp('\.'+ext+'$'),
 			list = this.raw();
 		for(let pack in list){
-			list[pack].files.forEach((file)=>{
-				fileList.push(list[pack].path + file);
-			})
-			
+			fileList = fileList.concat(this.package(pack, ext));
 		}
 		return fileList;
 	},
-	package: function(pack){
+	package: function(pack, ext='.+'){
 		let list = this.raw(),
+			exp = new RegExp('\.'+ext+'$'),
 			fileList = new Array();
 		if (list[pack]) {
-			fileList = fileList.concat(list[pack].files);
+			list[pack].files.forEach((file)=>{
+				if (file.match(exp)) {
+					fileList.push(list[pack].path + file);
+				}
+			})
 		}
 		return fileList;
 	}

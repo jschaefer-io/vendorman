@@ -1,6 +1,6 @@
 {
   "name": "vendorman",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Helper for common vendors in basic websites",
   "main": "index.js",
   "scripts": {},
